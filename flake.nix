@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     storm-backend.url = "github:STORM-Gear/storm-backend";
   };
 
@@ -18,6 +23,7 @@
   in {
     nixosConfigurations.storm = nixpkgs.lib.nixosSystem {
       modules = [
+        inputs.sops-nix.nixosModules.sops
         inputs.storm-backend.nixosModules.default
         ./configuration.nix
       ];
