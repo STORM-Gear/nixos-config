@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "storm";
+  networking.hostName = "storm-gear";
 
   # SOPS
   sops.defaultSopsFile = ./secrets/default.yaml;

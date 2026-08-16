@@ -21,12 +21,16 @@
     forAllSystems = f: nixpkgs.lib.genAttrs systems f;
     nixpkgsFor = system: import nixpkgs {inherit system;};
   in {
-    nixosConfigurations.storm = nixpkgs.lib.nixosSystem {
-      modules = [
-        inputs.sops-nix.nixosModules.sops
-        inputs.storm-backend.nixosModules.default
-        ./configuration.nix
-      ];
+    nixosConfigurations = {
+      container = nixpkgs.lib.nixosSystem {
+        modules = [
+          inputs.sops-nix.nixosModules.sops
+          inputs.storm-backend.nixosModules.default
+          ./configuration.nix
+        ];
+      };
+
+      storm-gear = self.nixosConfigurations.container;
     };
 
     devShells = forAllSystems (system: let
