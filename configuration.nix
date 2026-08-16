@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostname = "storm";
+  networking.hostName = "storm";
 
   system.stateVersion = "26.11";
 }
