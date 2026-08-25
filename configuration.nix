@@ -1,6 +1,8 @@
 {config, ...}: let
   domain = "stormvario.fr";
 
+  stateDir = "/var/lib/storm-gear";
+
   backendDomain = "backend.${domain}";
   backendPort = 57053;
 
@@ -36,7 +38,7 @@ in {
   ## Database
   services.postgresql = {
     enable = true;
-    dataDir = "/var/lib/storm/postgres";
+    dataDir = "${stateDir}/postgres";
     ensureDatabases = [
       "storm"
     ];
@@ -69,8 +71,8 @@ in {
       volumes = [
         "/var/run/postgresql:/var/run/postgresql"
 
-        "/var/lib/storm/directus/uploads:/directus/uploads"
-        "/var/lib/storm/directus/extensions:/directus/extensions"
+        "${stateDir}/directus/uploads:/directus/uploads"
+        "${stateDir}/directus/extensions:/directus/extensions"
       ];
     };
   };
