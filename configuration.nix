@@ -74,6 +74,10 @@ in {
       ];
     };
   };
+  systemd.services."${config.virtualisation.oci-containers.containers.storm-directus.serviceName}" = {
+    after = ["postgresql.service"];
+    requires = ["postgresql.service"];
+  };
 
   # Caddy
   services.caddy = {
