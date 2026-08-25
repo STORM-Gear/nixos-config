@@ -91,6 +91,11 @@ in {
   # Caddy
   services.caddy = {
     enable = true;
+    globalConfig = ''
+      servers {
+      	trusted_proxies static private_ranges
+      }
+    '';
 
     virtualHosts."${backendDomain}".extraConfig = ''
       reverse_proxy http://127.0.0.1:${toString backendPort}
