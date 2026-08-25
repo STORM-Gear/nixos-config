@@ -27,6 +27,13 @@ in {
   networking.hostName = "storm-gear";
 
   # Storm
+  ## State directory
+  systemd.tmpfiles.rules = [
+    "d ${stateDir} 0750 root root -"
+    "d ${stateDir}/postgres 0750 postgres postgres -"
+    "d ${stateDir}/directus 0750 root root -"
+  ];
+
   ## Backend
   storm.services.backend = {
     enable = true;
