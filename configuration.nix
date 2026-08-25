@@ -97,11 +97,11 @@ in {
       }
     '';
 
-    virtualHosts."${backendDomain}".extraConfig = ''
+    virtualHosts."http://${backendDomain}".extraConfig = ''
       reverse_proxy http://127.0.0.1:${toString backendPort}
     '';
 
-    virtualHosts."${directusDomain}".extraConfig = ''
+    virtualHosts."http://${directusDomain}".extraConfig = ''
       reverse_proxy http://127.0.0.1:${toString directusPort}
     '';
   };
