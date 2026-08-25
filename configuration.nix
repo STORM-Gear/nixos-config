@@ -3,6 +3,9 @@
 
   backendDomain = "backend.${domain}";
   backendPort = 57053;
+
+  directusDomain = "admin.${domain}";
+  directusPort = 8055;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -22,11 +25,53 @@ in {
   networking.hostName = "storm-gear";
 
   # Storm
+  ## Backend
   storm.services.backend = {
     enable = true;
     port = backendPort;
     secretsFile = config.sops.secrets."backend.env".path;
     debug = true;
+  };
+
+  ## Database
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [
+      "storm"
+    ];
+    ensureUsers = [
+      {
+        name = "storm";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
+
+  ## Directus
+  virtualisation.oci-containers.containers = {
+    storm-directus = {
+      image = "docker.io/directus/directus:12";
+      pull = "newer";
+      autoStart = true;
+      ports = [
+        "127.0.0.1:${toString directusPort}:8055"
+      ];
+      environment = {
+        DB_CLIENT = "pg";
+        DB_CONNECTION_STRING = "postgresql://storm/storm?host=/var/run/postgresql";
+        PUBLIC_URL = "https://${directusDomain}";
+        WEBSOCKETS_ENABLED = "true";
+      };
+      environmentFiles = [
+        config.sops.secrets."directus.env".path
+      ];
+      volumes = [
+        "/var/run/postgresql:/var/run/postgresql"
+
+        "/var/lib/storm/directus/uploads:/directus/uploads"
+        "/var/lib/storm/directus/extensions:/directus/extensions"
+      ];
+    };
   };
 
   # Caddy
@@ -36,12 +81,17 @@ in {
     virtualHosts."${backendDomain}".extraConfig = ''
       reverse_proxy http://127.0.0.1:${toString backendPort}
     '';
+
+    virtualHosts."${directusDomain}".extraConfig = ''
+      reverse_proxy http://127.0.0.1:${toString directusDomain}
+    '';
   };
 
   # SOPS
   sops = {
     secrets = {
       "backend.env".owner = config.storm.services.backend.user;
+      "directus.env".owner = "root";
     };
 
     defaultSopsFile = ./secrets/default.yaml;
