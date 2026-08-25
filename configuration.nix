@@ -75,7 +75,7 @@ in {
       ];
       environment = {
         DB_CLIENT = "pg";
-        DB_CONNECTION_STRING = "postgresql://storm@/storm?host=/var/run/postgresql";
+        DB_CONNECTION_STRING = "socket://storm@/var/run/postgresql?db=storm";
         PUBLIC_URL = "https://${directusDomain}";
         WEBSOCKETS_ENABLED = "true";
       };
