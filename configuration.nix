@@ -24,7 +24,13 @@ in {
     trusted-public-keys = ["gasdev.cachix.org-1:eBesrrBJpsMZ33OmvG4aKvfdyVkDa2OKCJ2o80IMJfE="];
   };
   time.timeZone = "Europe/Paris";
-  networking.hostName = "storm-gear";
+  networking = {
+    hostName = "storm-gear";
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [80];
+    };
+  };
 
   virtualisation.oci-containers.backend = "podman";
 
