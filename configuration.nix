@@ -75,7 +75,7 @@ in {
       ];
       environment = {
         DB_CLIENT = "pg";
-        DB_HOST = /var/run/postgresql;
+        DB_HOST = "/var/run/postgresql";
         DB_PORT = "5432";
         DB_DATABASE = "storm";
         DB_USER = "storm";
