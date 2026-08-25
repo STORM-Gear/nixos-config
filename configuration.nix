@@ -90,7 +90,7 @@ in {
     '';
 
     virtualHosts."${directusDomain}".extraConfig = ''
-      reverse_proxy http://127.0.0.1:${toString directusDomain}
+      reverse_proxy http://127.0.0.1:${toString directusPort}
     '';
   };
 
