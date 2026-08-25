@@ -58,6 +58,10 @@ in {
         ensureDBOwnership = true;
       }
     ];
+    authentication = ''
+      #type database  DBuser  auth-method
+      local all       all     trust
+    '';
   };
 
   ## Directus
