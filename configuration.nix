@@ -86,7 +86,7 @@ in {
       ];
     };
   };
-  systemd.services."${config.virtualisation.oci-containers.containers.storm-directus.serviceName}" = {
+  systemd.services."${config.virtualisation.oci-containers.containers.directus.serviceName}" = {
     after = ["postgresql.service"];
     requires = ["postgresql.service"];
   };
