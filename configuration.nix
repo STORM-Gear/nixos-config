@@ -26,6 +26,8 @@ in {
   time.timeZone = "Europe/Paris";
   networking.hostName = "storm-gear";
 
+  virtualisation.oci-containers.backend = "podman";
+
   # Storm
   ## State directory
   systemd.tmpfiles.rules = [
@@ -60,7 +62,7 @@ in {
 
   ## Directus
   virtualisation.oci-containers.containers = {
-    storm-directus = {
+    directus = {
       image = "docker.io/directus/directus:12";
       pull = "newer";
       autoStart = true;
