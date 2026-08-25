@@ -36,6 +36,7 @@ in {
   ## Database
   services.postgresql = {
     enable = true;
+    dataDir = "/var/lib/storm/postgres";
     ensureDatabases = [
       "storm"
     ];
