@@ -28,9 +28,21 @@ in {
     hostName = "storm-gear";
     firewall = {
       enable = true;
-      allowedTCPPorts = [80];
+      allowedTCPPorts = [80 22];
     };
   };
+
+  # SSH
+  services.openssh = {
+    enable = true;
+    ports = [22];
+    settings = {
+      PasswordAuthentication = false;
+    };
+  };
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQyRXFQ6iA5p0vDuoGSHZfajiVZPAGIyqhTziM7QgBV gaspard@nixos"
+  ];
 
   virtualisation.oci-containers.backend = "podman";
 
