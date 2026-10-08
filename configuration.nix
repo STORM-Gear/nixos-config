@@ -102,6 +102,7 @@ in {
         PUBLIC_URL = "https://${directusDomain}";
         WEBSOCKETS_ENABLED = "true";
         MCP_OAUTH_ENABLED = "true";
+        MCP_OAUTH_DCR_ENABLED = true;
       };
       environmentFiles = [
         config.sops.secrets."directus.env".path
