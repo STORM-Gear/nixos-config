@@ -156,11 +156,11 @@
         "rust-flake": "rust-flake"
       },
       "locked": {
-        "lastModified": 1789299289,
-        "narHash": "sha256-vYI8yuD0QVmWPq7DedOlwmLmbl09huJK2B3iNN+NG5U=",
+        "lastModified": 1791855841,
+        "narHash": "sha256-k2d4eqBHl+ObQ9UqZvmZmWF7v6V5Ezx7Bdj+9O7JIK0=",
         "owner": "STORM-Gear",
         "repo": "storm-backend",
-        "rev": "b6e0710f92e9fc25affc7a5f6a3dafbb61c9df13",
+        "rev": "28e5da5fc2788352c8f1293ef2565f944012636a",
         "type": "github"
       },
       "original": {
