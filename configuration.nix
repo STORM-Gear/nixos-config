@@ -131,6 +131,7 @@ in {
       ];
       environment = {
         OBOT_SERVER_ENABLE_AUTHENTICATION = "1";
+        OBOT_SERVER_HOSTNAME = "https://${obotDomain}";
       };
       environmentFiles = [
         config.sops.secrets."obot.env".path
@@ -163,7 +164,7 @@ in {
     '';
 
     virtualHosts."http://${obotDomain}".extraConfig = ''
-      reverse_proxy http://127.0.0.1:${toString directusPort}
+      reverse_proxy http://127.0.0.1:${toString obotPort}
     '';
   };
 
