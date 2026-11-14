@@ -127,7 +127,7 @@ in {
       pull = "newer";
       autoStart = true;
       ports = [
-        "127.0.0.1:${obotPort}:8080"
+        "127.0.0.1:${toString obotPort}:8080"
       ];
       environment = {
         OBOT_SERVER_ENABLE_AUTHENTICATION = "1";
