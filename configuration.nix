@@ -50,6 +50,7 @@ in {
   ];
 
   virtualisation.oci-containers.backend = "podman";
+  virtualisation.containers.storage.settings.storage.driver = "vfs";
 
   # Storm
   ## State directory
@@ -123,7 +124,7 @@ in {
 
     ## Obot
     obot = {
-      image = "ghcr.io/obot-platform/obot:v0.27.0";
+      image = "ghcr.io/obot-platform/obot:latest";
       pull = "newer";
       autoStart = true;
       ports = [
