@@ -123,7 +123,7 @@ in {
 
     ## Obot
     obot = {
-      image = "ghcr.io/obot-platform/obot:latest";
+      image = "ghcr.io/obot-platform/obot:v0.27.0";
       pull = "newer";
       autoStart = true;
       ports = [
