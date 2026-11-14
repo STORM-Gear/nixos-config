@@ -26,6 +26,7 @@ in {
   time.timeZone = "Europe/Paris";
   networking = {
     hostName = "storm-gear";
+    useDHCP = false;
     nameservers = ["1.1.1.1" "1.0.0.1"];
     firewall = {
       enable = true;
