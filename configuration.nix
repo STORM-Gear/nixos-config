@@ -8,6 +8,9 @@
 
   directusDomain = "admin.${domain}";
   directusPort = 8055;
+
+  obotDomain = "mcp.${domain}";
+  obotPort = 6070;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -56,6 +59,7 @@ in {
     "d ${stateDir}/directus 0755 root root -"
     "d ${stateDir}/directus/uploads 0750 1000 1000 -"
     "d ${stateDir}/directus/extensions 0750 1000 1000 -"
+    "d ${stateDir}/obot-data 0750 1000 1000 -"
   ];
 
   ## Backend
@@ -85,8 +89,8 @@ in {
     '';
   };
 
-  ## Directus
   virtualisation.oci-containers.containers = {
+    ## Directus
     directus = {
       image = "docker.io/directus/directus:12";
       pull = "newer";
@@ -116,6 +120,25 @@ in {
         "${stateDir}/directus/extensions:/directus/extensions"
       ];
     };
+
+    ## Obot
+    obot = {
+      image = "ghcr.io/obot-platform/obot:latest";
+      pull = "newer";
+      autoStart = true;
+      ports = [
+        "127.0.0.1:${obotPort}:8080"
+      ];
+      environment = {
+        OBOT_SERVER_ENABLE_AUTHENTICATION = "1";
+      };
+      environmentFiles = [
+        config.sops.secrets."obot.env".path
+      ];
+      volumes = [
+        "${stateDir}/obot-data:/data"
+      ];
+    };
   };
   systemd.services."${config.virtualisation.oci-containers.containers.directus.serviceName}" = {
     after = ["postgresql.service"];
@@ -138,6 +161,10 @@ in {
     virtualHosts."http://${directusDomain}".extraConfig = ''
       reverse_proxy http://127.0.0.1:${toString directusPort}
     '';
+
+    virtualHosts."http://${obotDomain}".extraConfig = ''
+      reverse_proxy http://127.0.0.1:${toString directusPort}
+    '';
   };
 
   # SOPS
@@ -145,6 +172,7 @@ in {
     secrets = {
       "backend.env".owner = config.storm.services.backend.user;
       "directus.env".owner = "root";
+      "obot.env".owner = "root";
     };
 
     defaultSopsFile = ./secrets/default.yaml;
