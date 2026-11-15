@@ -50,7 +50,6 @@ in {
   ];
 
   virtualisation.oci-containers.backend = "podman";
-  virtualisation.containers.storage.settings.storage.driver = "vfs";
 
   # Storm
   ## State directory
