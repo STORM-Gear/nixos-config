@@ -59,7 +59,7 @@ in {
     "d ${stateDir}/directus 0755 root root -"
     "d ${stateDir}/directus/uploads 0750 1000 1000 -"
     "d ${stateDir}/directus/extensions 0750 1000 1000 -"
-    "d ${stateDir}/obot-data 0750 1000 1000 -"
+    "d ${stateDir}/obot-data 0750 70 70 -" # Postgres user UID inside container
   ];
 
   ## Backend
