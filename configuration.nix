@@ -138,6 +138,8 @@ in {
       ];
       volumes = [
         "${stateDir}/obot-data:/data"
+        # In order to run MCPs as containers
+        "/var/run/podman/podman.sock:/var/run/docker.sock"
       ];
     };
   };
