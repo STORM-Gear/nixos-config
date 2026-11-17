@@ -1,18 +1,24 @@
+name: "Flake check"
+
 on:
   pull_request:
   push:
     branches: [main]
 
 jobs:
-  build:
-    name: Nix flake check
-    runs-on: ubuntu-latest
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { system: x86_64-linux, runner: ubuntu-26.04 }
+          - { system: aarch64-linux, runner: ubuntu-26.04-arm }
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
-      - uses: DeterminateSystems/nix-installer-action@v23
+      - uses: cachix/install-nix-action@v31
       - uses: cachix/cachix-action@v17
         with:
           name: gasdev
-      - name: Install omnix
-        run: nix profile install nixpkgs#omnix
-      - run: om ci
+      - run: nix flake check --system ${{ matrix.system }} --show-trace
+
