@@ -14,10 +14,10 @@ in {
     group = cfg.serviceGroup;
     createUser = false;
     stateDir = "${cfg.stateDir}/hermes-agent";
-    container = {
-      enable = true;
-      backend = "podman";
-    };
+    # container = {
+    #   enable = true;
+    #   backend = "podman";
+    # };
     environmentFiles = [
       config.sops.secrets."hermes-agent.env".path
     ];
@@ -37,9 +37,9 @@ in {
     };
   };
 
-  # Run container as user
-  systemd.services.hermes-agent.serviceConfig = {
-    User = cfg.serviceUser;
-    Groups = cfg.serviceGroup;
-  };
+  # # Run container as user
+  # systemd.services.hermes-agent.serviceConfig = {
+  #   User = cfg.serviceUser;
+  #   Groups = cfg.serviceGroup;
+  # };
 }
