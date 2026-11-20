@@ -39,6 +39,7 @@ in {
       isNormalUser = true;
       createHome = true;
       linger = true;
+      uid = 1000;
       # needs to be enabled before Podman's first run as the user
       autoSubUidGidRange = true;
       group = cfg.serviceGroup;
