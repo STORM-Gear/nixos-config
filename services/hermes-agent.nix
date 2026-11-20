@@ -1,6 +1,8 @@
 {config, ...}: let
   cfg = config.storm-gear;
 in {
+  sops.secrets."hermes-agent.env".owner = cfg.serviceUser;
+
   systemd.tmpfiles.rules = [
     "d ${cfg.stateDir}/hermes-agent 0750 ${cfg.serviceUser} ${cfg.serviceGroup} -"
   ];
