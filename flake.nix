@@ -4,7 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    hermes-agent.url = "github:NousResearch/hermes-agent";
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent/v0.23.3";
+    };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
