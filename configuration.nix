@@ -43,6 +43,16 @@
     podman.enable = true;
     oci-containers.backend = "podman";
   };
+  # rootless permission fix inside NixOS container
+  systemd.mounts = [
+    {
+      what = "proc";
+      where = "/proc2";
+      type = "proc";
+      options = "nosuid,nodev,noexec";
+    }
+  ];
+  systemd.tmpfiles.rules = ["d /proc2 0755 root root -"];
 
   # Caddy
   services.caddy = {
