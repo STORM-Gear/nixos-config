@@ -31,6 +31,7 @@
         modules = [
           inputs.sops-nix.nixosModules.sops
           inputs.storm-backend.nixosModules.default
+          inputs.hermes-agent.nixosModules.default
           ./configuration.nix
         ];
       };
