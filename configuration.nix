@@ -1,19 +1,8 @@
-{config, ...}: let
-  domain = "stormvario.fr";
-
-  stateDir = "/var/lib/storm-gear";
-
-  backendDomain = "backend.${domain}";
-  backendPort = 57053;
-
-  directusDomain = "admin.${domain}";
-  directusPort = 8055;
-
-  obotDomain = "mcp.${domain}";
-  obotPort = 6070;
-in {
+{...}: {
   imports = [
     ./hardware-configuration.nix
+    ./options.nix
+    ./services
   ];
 
   # Basic settings
@@ -51,103 +40,6 @@ in {
 
   virtualisation.oci-containers.backend = "podman";
 
-  # Storm
-  ## State directory
-  systemd.tmpfiles.rules = [
-    "d ${stateDir} 0755 root root -"
-    "d ${stateDir}/postgres 0750 postgres postgres -"
-    "d ${stateDir}/directus 0755 root root -"
-    "d ${stateDir}/directus/uploads 0750 1000 1000 -"
-    "d ${stateDir}/directus/extensions 0750 1000 1000 -"
-    "d ${stateDir}/obot-data 0750 70 70 -" # Postgres user UID inside container
-  ];
-
-  ## Backend
-  storm.services.backend = {
-    enable = true;
-    port = backendPort;
-    secretsFile = config.sops.secrets."backend.env".path;
-    debug = true;
-  };
-
-  ## Database
-  services.postgresql = {
-    enable = true;
-    dataDir = "${stateDir}/postgres";
-    ensureDatabases = [
-      "storm"
-    ];
-    ensureUsers = [
-      {
-        name = "storm";
-        ensureDBOwnership = true;
-      }
-    ];
-    authentication = ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-    '';
-  };
-
-  virtualisation.oci-containers.containers = {
-    ## Directus
-    directus = {
-      image = "docker.io/directus/directus:12";
-      pull = "newer";
-      autoStart = true;
-      ports = [
-        "127.0.0.1:${toString directusPort}:8055"
-      ];
-      environment = {
-        DB_CLIENT = "pg";
-        DB_HOST = "/var/run/postgresql";
-        DB_PORT = "5432";
-        DB_DATABASE = "storm";
-        DB_USER = "storm";
-        DB_PASSWORD = "";
-        PUBLIC_URL = "https://${directusDomain}";
-        WEBSOCKETS_ENABLED = "true";
-        MCP_OAUTH_ENABLED = "true";
-        MCP_OAUTH_DCR_ENABLED = "true";
-      };
-      environmentFiles = [
-        config.sops.secrets."directus.env".path
-      ];
-      volumes = [
-        "/var/run/postgresql:/var/run/postgresql"
-
-        "${stateDir}/directus/uploads:/directus/uploads"
-        "${stateDir}/directus/extensions:/directus/extensions"
-      ];
-    };
-
-    ## Obot
-    obot = {
-      image = "ghcr.io/obot-platform/obot:latest";
-      pull = "newer";
-      autoStart = true;
-      ports = [
-        "127.0.0.1:${toString obotPort}:8080"
-      ];
-      environment = {
-        OBOT_SERVER_ENABLE_AUTHENTICATION = "1";
-        OBOT_SERVER_HOSTNAME = "https://${obotDomain}";
-      };
-      environmentFiles = [
-        config.sops.secrets."obot.env".path
-      ];
-      volumes = [
-        "${stateDir}/obot-data:/data"
-        # In order to run MCPs as containers
-        "/var/run/podman/podman.sock:/var/run/docker.sock"
-      ];
-    };
-  };
-  systemd.services."${config.virtualisation.oci-containers.containers.directus.serviceName}" = {
-    after = ["postgresql.service"];
-    requires = ["postgresql.service"];
-  };
-
   # Caddy
   services.caddy = {
     enable = true;
@@ -156,28 +48,10 @@ in {
       	trusted_proxies static private_ranges
       }
     '';
-
-    virtualHosts."http://${backendDomain}".extraConfig = ''
-      reverse_proxy http://127.0.0.1:${toString backendPort}
-    '';
-
-    virtualHosts."http://${directusDomain}".extraConfig = ''
-      reverse_proxy http://127.0.0.1:${toString directusPort}
-    '';
-
-    virtualHosts."http://${obotDomain}".extraConfig = ''
-      reverse_proxy http://127.0.0.1:${toString obotPort}
-    '';
   };
 
   # SOPS
   sops = {
-    secrets = {
-      "backend.env".owner = config.storm.services.backend.user;
-      "directus.env".owner = "root";
-      "obot.env".owner = "root";
-    };
-
     defaultSopsFile = ./secrets/default.yaml;
     age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
   };
