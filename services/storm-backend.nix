@@ -13,6 +13,9 @@ in {
   storm.services.backend = {
     enable = true;
     port = backendPort;
+    user = cfg.serviceUser;
+    group = cfg.serviceGroup;
+    preventUserCreation = true;
     secretsFile = config.sops.secrets."backend.env".path;
     debug = true;
   };
