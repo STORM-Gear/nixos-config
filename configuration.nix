@@ -38,7 +38,11 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQyRXFQ6iA5p0vDuoGSHZfajiVZPAGIyqhTziM7QgBV gaspard@nixos"
   ];
 
-  virtualisation.oci-containers.backend = "podman";
+  virtualisation = {
+    containers.enable = true;
+    podman.enable = true;
+    oci-containers.backend = "podman";
+  };
 
   # Caddy
   services.caddy = {
