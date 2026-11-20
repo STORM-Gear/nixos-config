@@ -10,6 +10,10 @@ in {
     reverse_proxy http://127.0.0.1:${toString obotPort}
   '';
 
+  systemd.tmpfiles.rules = [
+    "d ${cfg.stateDir}/obot-data 0750 ${cfg.serviceUser} ${cfg.serviceGroup} -"
+  ];
+
   virtualisation.oci-containers.containers = {
     obot = {
       image = "ghcr.io/obot-platform/obot:latest";
