@@ -30,13 +30,13 @@ in {
         # In order to run MCPs as containers
         "/var/run/podman/podman.sock:/var/run/docker.sock"
       ];
-    };
 
-    # Host user config
-    podman.user = cfg.serviceUser;
-    user = cfg.serviceUser;
-    extraOptions = [
-      "--userns=keep-id"
-    ];
+      # Host user config
+      podman.user = cfg.serviceUser;
+      user = cfg.serviceUser;
+      extraOptions = [
+        "--userns=keep-id"
+      ];
+    };
   };
 }
