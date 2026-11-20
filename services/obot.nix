@@ -33,7 +33,6 @@ in {
 
       # Host user config
       podman.user = cfg.serviceUser;
-      user = cfg.serviceUser;
       extraOptions = [
         "--userns=keep-id"
       ];
