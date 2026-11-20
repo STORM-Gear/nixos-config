@@ -33,7 +33,7 @@ in {
 
   config = {
     users.groups.storm = lib.mkIf (cfg.serviceGroup == "storm") {
-      name = "storm";
+      gid = 1000;
     };
     users.users.storm = lib.mkIf (cfg.serviceUser == "storm") {
       isNormalUser = true;
