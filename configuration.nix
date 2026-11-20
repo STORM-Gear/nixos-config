@@ -50,6 +50,7 @@
       where = "/proc2";
       type = "proc";
       options = "nosuid,nodev,noexec";
+      wantedBy = ["podman.service"];
     }
   ];
   systemd.tmpfiles.rules = ["d /proc2 0755 root root -"];
