@@ -11,8 +11,7 @@ in {
   '';
 
   systemd.tmpfiles.rules = [
-    "d ${cfg.stateDir}/obot-data 0750 ${cfg.serviceUser} ${cfg.serviceGroup} -"
-    "d ${cfg.stateDir}/obot-data/postgresql 0750 70 70 -" ## Postgres user UID inside container
+    "d ${cfg.stateDir}/obot-data 0750 70 70 -" # Postgres user UID inside container
   ];
 
   virtualisation.oci-containers.containers = {
