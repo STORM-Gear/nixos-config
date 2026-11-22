@@ -17,6 +17,9 @@ in {
     container = {
       enable = true;
       backend = "podman";
+      extraOptions = [
+        "--userns=keep-id"
+      ];
     };
 
     environmentFiles = [
