@@ -18,10 +18,20 @@ in {
       enable = true;
       backend = "podman";
     };
+
     environmentFiles = [
       config.sops.secrets."hermes-agent.env".path
     ];
+
     hermesHomeFiles."SOUL.md" = ../assets/hermes-agent/SOUL.md;
+
+    mcpServers = {
+      storm-gear = {
+        url = "https://mcp.stormvario.fr/mcp-connect/vmcp15h8v4";
+        auth = "oauth";
+      };
+    };
+
     settings = {
       model = {
         provider = "openrouter";
