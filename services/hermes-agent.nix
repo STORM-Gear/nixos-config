@@ -21,6 +21,7 @@ in {
     environmentFiles = [
       config.sops.secrets."hermes-agent.env".path
     ];
+    hermesHomeFiles."SOUL.md" = ../assets/hermes-agent/SOUL.md;
     settings = {
       model = {
         provider = "openrouter";
