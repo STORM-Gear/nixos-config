@@ -14,14 +14,10 @@ in {
     group = cfg.serviceGroup;
     createUser = false;
     stateDir = "${cfg.stateDir}/hermes-agent";
-    container = {
-      enable = true;
-      backend = "podman";
-      extraOptions = [
-        "--userns=keep-id"
-      ];
-    };
 
+    environment = {
+      HERMES_DOCKER_BINARY = "podman";
+    };
     environmentFiles = [
       config.sops.secrets."hermes-agent.env".path
     ];
@@ -47,6 +43,17 @@ in {
 
       plugins = {
         enabled = ["disk-cleanup"];
+      };
+
+      terminal = {
+        # Isolate hermes home
+        home_mode = "profile";
+
+        # This is where hermes is isolated from the host services
+        backend = "docker";
+        docker_image = "docker.io/library/ubuntu:24.04";
+        docker_run_as_host_user = true;
+        container_persistent = true;
       };
     };
   };
