@@ -22,7 +22,7 @@ in {
       config.sops.secrets."hermes-agent.env".path
     ];
 
-    hermesHomeFiles."SOUL.md" = ../assets/hermes-agent/SOUL.md;
+    hermesHomeFiles."SOUL.md" = ./SOUL.md;
 
     mcpServers = {
       storm-gear = {

@@ -5,6 +5,6 @@
     ./database.nix
     ./directus.nix
     ./obot.nix
-    ./hermes-agent.nix
+    ./hermes-agent
   ];
 }
