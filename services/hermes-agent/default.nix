@@ -45,6 +45,7 @@ in {
 
       extraDependencyGroups = [
         "messaging"
+        "firecrawl"
       ];
 
       plugins = {
