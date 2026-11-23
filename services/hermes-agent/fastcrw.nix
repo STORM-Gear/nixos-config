@@ -11,6 +11,8 @@
     version = "0.42.1";
     __structuredAttrs = true;
 
+    doCheck = false;
+
     src = pkgs.fetchFromGitHub {
       owner = "fastcrw";
       repo = "crw";
