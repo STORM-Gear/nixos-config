@@ -63,10 +63,4 @@ in {
       };
     };
   };
-
-  # Run container as user
-  systemd.services.hermes-agent.serviceConfig = {
-    User = cfg.serviceUser;
-    Groups = cfg.serviceGroup;
-  };
 }
