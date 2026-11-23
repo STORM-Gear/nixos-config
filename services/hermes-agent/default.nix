@@ -1,6 +1,10 @@
 {config, ...}: let
   cfg = config.storm-gear;
 in {
+  imports = [
+    ./fastcrw.nix
+  ];
+
   sops.secrets."hermes-agent.env".owner = cfg.serviceUser;
 
   systemd.tmpfiles.rules = [
@@ -17,6 +21,8 @@ in {
 
     environment = {
       HERMES_DOCKER_BINARY = "podman";
+
+      FIRECRAWL_API_URL = "http://127.0.0.1:3000";
     };
     environmentFiles = [
       config.sops.secrets."hermes-agent.env".path
