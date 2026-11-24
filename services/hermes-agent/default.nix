@@ -60,6 +60,7 @@ in {
         backend = "docker";
         docker_image = "docker.io/library/ubuntu:24.04";
         docker_run_as_host_user = true;
+        docker_extra_args = ["--userns=keep-id"];
         container_persistent = true;
       };
     };
