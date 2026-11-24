@@ -20,7 +20,7 @@ in {
     stateDir = "${cfg.stateDir}/hermes-agent";
 
     environment = {
-      HERMES_DOCKER_BINARY = "podman";
+      HERMES_DOCKER_BINARY = "${config.virtualisation.podman.package}/bin/podman";
 
       FIRECRAWL_API_URL = "http://127.0.0.1:3000";
     };
