@@ -56,6 +56,9 @@ in {
         # Isolate hermes home
         home_mode = "profile";
 
+        # Default one fails
+        cwd = "/workspace";
+
         # This is where hermes is isolated from the host services
         backend = "docker";
         docker_image = "docker.io/library/ubuntu:24.04";
