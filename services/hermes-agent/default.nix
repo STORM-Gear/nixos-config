@@ -70,7 +70,6 @@ in {
           "${cfg.stateDir}/hermes-agent/workspace:/workspace"
         ];
         docker_orphan_reaper = true;
-        container_persistent = false; # Lets me define where home and workspace are mounted
       };
     };
   };
