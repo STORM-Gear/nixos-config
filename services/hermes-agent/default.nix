@@ -78,6 +78,6 @@ in {
   # Fix container `.local` being inside of $stateDir/hermes-agent
   systemd.services.hermes-agent.environment = {
     XDG_RUNTIME_DIR = "/run/user/${toString config.users.users.storm.uid}";
-    XDG_DATA_HOME = "/home/storm/.local";
+    XDG_DATA_HOME = "/home/storm/.local/share";
   };
 }
