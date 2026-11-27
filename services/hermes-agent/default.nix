@@ -65,6 +65,7 @@ in {
         docker_forward_env = [
           "DIRECTUS_ACCESS_TOKEN"
         ];
+        docker_orphan_reaper = true;
         container_persistent = true;
       };
     };
