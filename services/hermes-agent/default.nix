@@ -28,6 +28,11 @@ in {
       config.sops.secrets."hermes-agent.env".path
     ];
 
+    extraDependencyGroups = [
+      "messaging"
+      "firecrawl"
+    ];
+
     hermesHomeFiles."SOUL.md" = ./SOUL.md;
 
     mcpServers = {
@@ -42,11 +47,6 @@ in {
         provider = "openrouter";
         default = "deepseek/deepseek-v4.1-flash-1017";
       };
-
-      extraDependencyGroups = [
-        "messaging"
-        "firecrawl"
-      ];
 
       plugins = {
         enabled = ["disk-cleanup"];
