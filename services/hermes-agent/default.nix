@@ -64,6 +64,9 @@ in {
         docker_image = "docker.io/library/ubuntu:24.04";
         docker_run_as_host_user = true;
         docker_extra_args = ["--userns=keep-id"];
+        docker_forward_env = [
+          "DIRECTUS_ACCESS_TOKEN"
+        ];
         container_persistent = true;
       };
     };
