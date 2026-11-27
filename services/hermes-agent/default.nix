@@ -70,6 +70,7 @@ in {
           "${cfg.stateDir}/hermes-agent/workspace:/workspace"
         ];
         docker_orphan_reaper = true;
+        container_persistent = true;
       };
     };
   };
