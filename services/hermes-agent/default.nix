@@ -20,6 +20,7 @@ in {
     stateDir = "${cfg.stateDir}/hermes-agent";
 
     environment = {
+      # Note that the home is $stateDir/hermes-agent for podman commands
       HERMES_DOCKER_BINARY = "${config.virtualisation.podman.package}/bin/podman";
 
       FIRECRAWL_API_URL = "http://127.0.0.1:3000";
@@ -64,6 +65,10 @@ in {
         docker_image = "docker.io/library/ubuntu:24.04";
         docker_forward_env = [
           "DIRECTUS_ACCESS_TOKEN"
+        ];
+        docker_volumes = [
+          "${cfg.stateDir}/hermes-agent/workspace:/workspace"
+          "${cfg.stateDir}/hermes-agent/home:/root"
         ];
         docker_orphan_reaper = true;
         container_persistent = true;
