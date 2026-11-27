@@ -68,7 +68,6 @@ in {
         ];
         docker_volumes = [
           "${cfg.stateDir}/hermes-agent/workspace:/workspace"
-          "${cfg.stateDir}/hermes-agent/home:/root"
         ];
         docker_orphan_reaper = true;
         container_persistent = true;
