@@ -62,8 +62,6 @@ in {
         # This is where hermes is isolated from the host services
         backend = "docker";
         docker_image = "docker.io/library/ubuntu:24.04";
-        docker_run_as_host_user = true;
-        docker_extra_args = ["--userns=keep-id"];
         docker_forward_env = [
           "DIRECTUS_ACCESS_TOKEN"
         ];
